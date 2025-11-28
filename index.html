@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,35 +10,32 @@
     <!-- Google Fonts: Inter & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Custom styles to match the branding */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* A light gray background (Tailwind gray-50) */
+            background-color: #f8fafc;
         }
-        h1, h2, h3 {
+        h1, h2, h3, .nav-item {
             font-family: 'Poppins', sans-serif;
-            font-weight: 700;
         }
         /* Custom colors from the logo */
-        .brand-green {
-            color: #00843D;
-        }
-        .bg-brand-green {
-            background-color: #00843D;
-        }
-        .brand-black {
-            color: #231F20;
-        }
-        /* Consistent hover effect for all cards */
+        .brand-green { color: #00843D; }
+        .bg-brand-green { background-color: #00843D; }
+        .brand-black { color: #231F20; }
+        
+        /* Card Hover Effects */
         .resource-card, .accordion-container {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
         }
-        .resource-card:hover, .accordion-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        .resource-card:hover:not(.accordion-container), .accordion-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border-color: #00843D;
         }
+
+        /* Accordion Transitions */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
@@ -47,430 +44,669 @@
         .accordion-chevron.rotate-180 {
             transform: rotate(180deg);
         }
+
+        /* Sidebar Active State */
+        .nav-item.active {
+            background-color: #e6f3ed; /* Light green tint */
+            color: #00843D;
+            border-right: 3px solid #00843D;
+        }
     </style>
 </head>
-<body class="antialiased text-gray-800">
+<body class="antialiased text-gray-800 bg-gradient-to-br from-gray-50 via-gray-50 to-green-50 min-h-screen">
 
-    <!-- Main Container -->
-    <div class="min-h-screen flex flex-col items-center p-4 sm:p-6 lg:p-8 relative">
+    <div class="flex flex-col md:flex-row min-h-screen">
         
-        <!-- Top-right corner icons -->
-        <div class="absolute top-6 right-6 flex items-center space-x-4">
-            <!-- Google Search Icon -->
-            <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" title="Google Search">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 hover:text-gray-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </a>
-            <!-- Gemini Icon -->
-            <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" title="Gemini">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 hover:text-gray-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9.65 3.65c.19-.39.73-.39.92 0l.82 1.67c.12.24.37.4.64.43l1.84.18c.42.04.59.58.28.88l-1.33 1.29c-.19.18-.28.45-.24.71l.31 1.83c.07.41-.36.73-.73.53l-1.64-.86c-.23-.12-.5-.12-.73 0l-1.64.86c-.37.2-.8-.12-.73-.53l.31-1.83c.04-.26-.05-.53-.24-.71l-1.33-1.29c-.31-.3-.14-.84.28-.88l1.84-.18c.27-.03.52-.19.64-.43l.82-1.67zM18 10.5a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008a.75.75 0 0 1 .75-.75zM6 13.5a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008a.75.75 0 0 1 .75-.75zM17 16.5a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008a.75.75 0 0 1 .75-.75z"/>
-                </svg>
-            </a>
+        <!-- Sidebar Navigation (Desktop) / Top Bar (Mobile) -->
+        <aside class="w-full md:w-64 bg-white/80 backdrop-blur-md border-b md:border-b-0 md:border-r border-gray-200 flex-shrink-0 md:h-screen md:sticky md:top-0 z-20">
+            <div class="p-6 flex flex-col h-full">
+                <!-- Logo Area -->
+                <div class="flex items-center justify-center md:justify-start mb-8">
+                    <img src="https://link-benefits.com/wp-content/uploads/2024/04/logo.png" alt="Link Benefits Logo" class="h-10 w-auto">
+                </div>
+
+                <!-- Search Bar (Mobile only here, Desktop in main area) -->
+                <div class="md:hidden mb-4">
+                     <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input type="text" id="mobile-search" class="search-input block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-brand-green focus:border-brand-green sm:text-sm transition duration-150 ease-in-out" placeholder="Search resources...">
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="space-y-1 flex-1 overflow-y-auto hidden md:block">
+                    <a href="#applications" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                        <span class="truncate">Applications</span>
+                    </a>
+                    <a href="#workspace" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                        <span class="truncate">Google Workspace</span>
+                    </a>
+                    <a href="#jotforms" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                        <span class="truncate">Jotforms</span>
+                    </a>
+                    <a href="#carriers" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                        <span class="truncate">Carriers</span>
+                    </a>
+                    <a href="#tools" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                        <span class="truncate">Tools</span>
+                    </a>
+                    <a href="#highspot" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                        <span class="truncate">Highspot</span>
+                    </a>
+                </nav>
+
+                <!-- Footer in Sidebar -->
+                <div class="mt-auto pt-6 border-t border-gray-200 hidden md:block">
+                    <p class="text-xs text-center text-gray-400">&copy; 2026 Link Benefits</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col relative">
+            
+            <!-- Top Bar (Desktop Search) -->
+            <div class="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-8 py-4 flex justify-between items-center">
+                
+                <!-- Desktop Search -->
+                <div class="hidden md:block w-full max-w-xl">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input type="text" id="desktop-search" class="search-input block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-brand-green focus:border-brand-green sm:text-sm transition duration-150 ease-in-out" placeholder="Search tools, carriers, or forms...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="p-4 sm:p-8 space-y-12">
+                
+                <!-- Applications Section -->
+                <section id="applications" class="scroll-mt-24">
+                    <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
+                        Applications
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                        <!-- Resource Tile 1: PerfectQuote -->
+                        <a href="https://app.perfectquote.io/login" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=perfectquote.io" alt="PerfectQuote" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">PerfectQuote</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Quoting</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Quoting and proposal platform</p>
+                        </a>
+
+                        <!-- Accordion for HubSpot -->
+                        <div class="accordion-container bg-white rounded-xl border border-gray-100 shadow-sm hover:border-brand-green/30">
+                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
+                                <div class="flex items-center space-x-4">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=hubspot.com" alt="Hubspot" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=H';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">HubSpot</h3>
+                                        <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">CRM & Sales</p>
+                                    </div>
+                                </div>
+                                <svg class="accordion-chevron w-5 h-5 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="px-6 pb-6 pt-0 border-t border-gray-50">
+                                    <ul class="space-y-3 mt-4">
+                                        <li><a href="https://app.hubspot.com/login" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Login</a></li>
+                                        <li><a href="https://app-na2.hubspot.com/contacts/242169564/objects/0-3/views/337508730/board" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Deals</a></li>
+                                        <li><a href="https://app-na2.hubspot.com/reports-dashboard/242169564/view/135711189" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Sales Dashboard</a></li>
+                                        <li><a href="https://app-na2.hubspot.com/reports-dashboard/242169564/view/135782673" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Policies Dashboard</a></li>
+                                        <li><a href="https://app-na2.hubspot.com/contacts/242169564/objects/0-1/views/337690835/list" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Contacts</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employee Navigator -->
+                        <a href="https://www.employeenavigator.com/identity/Account/Login?ReturnUrl=%2Fidentity%2Fconnect%2Fauthorize%2Fcallback%3FauthzId%3D16940681D9D39681197E4CC7357C76BE583AE4C7DE24D0F7CDEFF2BDAEF6C166" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=employeenavigator.com" alt="Employee Navigator" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Employee Navigator</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Ben Admin</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Benefits administration software</p>
+                        </a>
+
+                        <!-- Ease -->
+                        <a href="https://link-benefits.ease.com" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=ease.com" alt="Ease" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Ease</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Ben Admin</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">HR & benefits software</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Google Workspace Section -->
+                <section id="workspace" class="scroll-mt-24">
+                    <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
+                        Google Workspace
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                         <!-- Gmail -->
+                        <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                   <img class="h-8 w-8" src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" alt="Gmail" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=G';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Gmail</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Email</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Access your company email</p>
+                        </a>
+
+                        <!-- Google Calendar -->
+                        <a href="https://calendar.google.com" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                   <img class="h-8 w-8" src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_3_2x.png" alt="Google Calendar" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=C';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Calendar</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Scheduling</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">View and manage events</p>
+                        </a>
+                        
+                        <!-- Google Drive -->
+                         <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <img class="h-8 w-8" src="https://ssl.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png" alt="Google Drive" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=D';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Drive</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Files</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Shared file storage</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Jotforms Section -->
+                <section id="jotforms" class="scroll-mt-24">
+                    <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
+                        Jotforms
+                    </h2>
+                    <div class="grid grid-cols-1">
+                        <!-- Accordion for Jotforms -->
+                        <div class="accordion-container resource-card bg-white rounded-xl border border-gray-100 shadow-sm hover:border-brand-green/30">
+                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=jotform.com" alt="Jotform" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=J';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Jotforms</h3>
+                                        <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Online Forms</p>
+                                    </div>
+                                </div>
+                                <svg class="accordion-chevron w-5 h-5 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="px-6 pb-6 pt-0 border-t border-gray-50">
+                                    <ul class="space-y-4 mt-4">
+                                        <li class="flex items-center justify-between group/item">
+                                            <a href="https://form.jotform.com/240387345870058" target="_blank" rel="noopener noreferrer" class="flex-1 text-gray-600 hover:text-brand-green font-medium text-sm">Quote Intake Form</a>
+                                            <div class="flex items-center space-x-2 opacity-100 sm:opacity-0 sm:group-hover/item:opacity-100 transition-opacity">
+                                                <a href="https://www.jotform.com/inbox/240387345870058/6284986251518611200?" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-1.5 px-3 rounded transition-colors">Inbox</a>
+                                                <button class="copy-btn text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-1.5 px-3 rounded transition-colors" data-url="https://form.jotform.com/240387345870058">Copy Link</button>
+                                            </div>
+                                        </li>
+                                        <li class="flex items-center justify-between group/item">
+                                            <a href="https://form.jotform.com/241355673242152" target="_blank" rel="noopener noreferrer" class="flex-1 text-gray-600 hover:text-brand-green font-medium text-sm">New Business Intake Form</a>
+                                            <div class="flex items-center space-x-2 opacity-100 sm:opacity-0 sm:group-hover/item:opacity-100 transition-opacity">
+                                                <a href="https://www.jotform.com/inbox/241355673242152/6128530002612612208" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-1.5 px-3 rounded transition-colors">Inbox</a>
+                                                <button class="copy-btn text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-1.5 px-3 rounded transition-colors" data-url="https://form.jotform.com/241355673242152">Copy Link</button>
+                                            </div>
+                                        </li>
+                                        <li class="flex items-center justify-between group/item">
+                                            <a href="https://form.jotform.com/242735369567066" target="_blank" rel="noopener noreferrer" class="flex-1 text-gray-600 hover:text-brand-green font-medium text-sm">Link Pool Sign Up Form</a>
+                                             <div class="flex items-center space-x-2 opacity-100 sm:opacity-0 sm:group-hover/item:opacity-100 transition-opacity">
+                                                <button class="copy-btn text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-1.5 px-3 rounded transition-colors" data-url="https://form.jotform.com/242735369567066">Copy Link</button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Carriers Section -->
+                <section id="carriers" class="scroll-mt-24">
+                    <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
+                        Carriers
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        
+                        <!-- Accordion for Priority Health -->
+                        <div class="accordion-container resource-card bg-white rounded-xl border border-gray-100 shadow-sm hover:border-brand-green/30">
+                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=priorityhealth.com" alt="Priority Health" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Priority Health</h3>
+                                        <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
+                                    </div>
+                                </div>
+                                <svg class="accordion-chevron w-5 h-5 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="px-6 pb-6 pt-0 border-t border-gray-50">
+                                    <ul class="space-y-3 mt-4">
+                                        <li><a href="https://agent.priorityhealth.com/agents/s/login/" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Agent Portal</a></li>
+                                        <li><a href="https://www.priorityhealth.com/app/priority-quote/#/dashboard" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Priority Quote</a></li>
+                                        <li><a href="https://www.priorityhealth.com/agent/center/group/small/agent-resources-library/resources-to-help-you-sell" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Sales Resources</a></li>
+                                        <li><a href="https://www.priorityhealth.com/agent/center/group/small/agent-resources-library/tools-for-open-enrollment" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Enrollment Resources</a></li>
+                                        <li><a href="https://docs.google.com/document/d/1bWyybmK6vHlTYwM2ryYouRPKvWTzvyfw/edit?usp=sharing&ouid=103122112685413353287&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Onboarding Guidelines</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Accordion for MetLife -->
+                        <div class="accordion-container resource-card bg-white rounded-xl border border-gray-100 shadow-sm hover:border-brand-green/30">
+                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=metlife.com" alt="MetLife" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=M';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">MetLife</h3>
+                                        <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
+                                    </div>
+                                </div>
+                                <svg class="accordion-chevron w-5 h-5 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="px-6 pb-6 pt-0 border-t border-gray-50">
+                                    <ul class="space-y-3 mt-4">
+                                        <li><a href="https://access.online.metlife.com/" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Account Login</a></li>
+                                        <li><a href="https://docs.google.com/spreadsheets/d/1c9-axrbHlLILAHMEKD1CWHoLxxqkvd9Y/export?format=xlsx" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>2-99 Rating Workbook</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Unum -->
+                        <a href="https://login.unum.com/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <img class="h-8 w-auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAllBMVEUBUpT///8AUJMATpJ9nsBHgbIPYp5OgK4fbKYATJEASY/5+/0AR48AQYwAP4sASZDO3Ona4+2PsM3r8ffR4OwtcKaSrso7baMiZZ+FpcV2nsLl7vUAVpgOWJdYjLhwlr1kirW60eNbfqueu9TG1OMyaaGqxNmRs89VircxbqWKpsajtM1Ddahqi7RSeal8lro6e6/Dzt1XAIx8AAAG30lEQVR4nO2daXuiOhSAw4lFwyKbCygojEhrx+nt/f9/7oIdq041hLZOEu55P9c8eZuFrCfEOMe2g3C1N1OiJ5BNV6FvXygZ5NwvWIzGHgXZGf08ANRyzdCPrhrafmJaGtu9Aw5Zl/ZHw2gW98LvgBXPoj8N/Vzn2vkBYPnk0rDYsj4JNorz4tywiKnsLH07NC5OhpN5/wRrxa1/NIxyJjs3d4Hl0ZuhPetZG3wHZvbBsIx7Kkgg9hvDaG3Jzsnd8BK7NvT7WoKkGagGtWHoyM7HHbEWNrHNHpchgZFNfFd2Lu7KOCBhf/uZBiskqz4OZ07QFZn2uRnWDXFKsn4bEpP0XJDouuaEIAiCIAiCIF8D+jzUp5bjjpnnuo7Xv2k3AHPJU1gGUc2yenygbq8W2oGCufYvTwyU6wx6s2VJYf64ND5gJ/O0H4p0P4g++jUskz7sWwLk/nW/phirofbLKJAlVyroiWAgO4dfBNLQ5gnWxbjQekkaWMj3OyjqvDXkPbUK1jzou8lOdzc60UsibXtUgEBE0DAqXZdt6aKll3kvxIWe9RR2k3a5N0o966nzLFiEdX860LEQIS5FBeuWqONeO8u5g5lLlj80LETrp7igYST6NUQwqy6Gm0x2hjtD97enFFcot9oVYqdmWDfEvXZdDfsl/K1osF/0K8N/uggahn6dKRr+Dw21a4c0F5obHon2+hm+CM8sGnz9rgvQbYeBt55D77TTqG2m4bqp9dxB0F5r15U2A9MODdHXb9BW43SopjMtt6HYWvh7Eej3rTiQFoKC9kbTvW82FCzEYKdnEdaK7bsWBzRdLiXNordQZ/OoZxU9QE2Bif5E6zMLbNuqGJi6NsI3YFhyVzPsUtte5gjdbjiK0UbPHYsLqJncHL7560x/wea80P56MQbJXsvB2hVo9pJ82CxdJnPShwL8DYXs9fFsEXwSPmSg6VDtBgDUc53p62qxeHoyHddj/fL7Ta3Jamgv5RAEQRAEQRAE+SLA4W+lcE9glAxukghd+4k5KQzkn3ejD7zFQpG9azrkpTCSXopoKJACGkoGDQVSQEPJoKFACmgoGTQUSAENJYOGAimgoWTQUCAFNJQMGgqkgIaSQUOBFNBQMmgokAIaSgYNBVJAQ8mgoUAKaCgZNBRIAQ0lg4YCKaChZNBQIAU0lAwaCqSAhpJBQ4EU0FAyfEORp4b1NnwViOlBV2obslde/p5EDBdqG9IpL38iQfP5MV7kx1yAHS9/G4GY+azgpSD/FVHIePmbjNsTsLihQRR4rjjlhkpqv3ABI97v7fZ/0d1JucHz2x9u9xLe7yfyyxAIN1JS0Rrbw+PWgUr+4xcA3K4wanu8wlrzfm4k3t/R4EFzbhYrfiGCyY89+CD9Y9HER+T2hVHOa4nAZvyQ0SoE/aRbfimUc049dVoiDwZ/z4NDtuFm0ihuDkvAGra8YvKowgVEwvh9Ra04v94WgeRtz7TkCjTDJmJwWz4nefYx6hyw7XNbXMXlXIUirMdtrbED7U3teIoqBIRaZDco2n5mVPJHpQdY0h5CPypm+S5zHc+yHIdl+3XlC8TdHyhRSZvphchDD/Zy4v9bbWazn1VZBkJxP9UJgc3EnyOxa4T/eKPM+4j0tdNbFqIs1ehJD7idYneLUikU9hNGdyjE5VCl0LQOd5L3OTZKBVWEtNO7OSIsFXtbh7+o+Bm4cxIJAP3meqrA5P4PBMZuXZgo8yk8QePi+wTVfLKEtc4xhFHrQ3GCtU73RAV/KfStPwe8vNPbMjcF12r6NbB98Q2CubqCtWL85R61VPwFNpp98bu4ydTsZE4A23V6BumSYEjVLsEDzJl1eq7rRLQxLZXb4DvgjKpPzKaCaupp4dcA7v7npNsLj0G19zSooCcY2z9XwgOAqHjWogFeAJSZLwOR2rqskh8xVWq6Kwowms1/JDzLqAjzuUkUHaSJAFDXvdR8WDwWk4sONgqKzeIpTlOgSoR//BLQ1FjPccdjL03j0ShLUzJ2XcexGCUaPpnHoy4tqkjITgRBEARBEARBvplUdgbuDBBTdhbuC2Rk2u/JGkzJSrclrm7QFQkVOCp+R6yQBApc2bgjrk9s+ZfD7giYNrFFrpdpixMaxAgUOYd7H/za0FbhWsqdsNZRbWj4Ipd1tYTGpdEY2rOeGr5dyCHNHkKu+tb552B5s1XSGBqlYgcdvwc6P5zuORhyLu7oy/Gc3ZuhUcw13sK7BrDtm+DR0JjkrE/FCDQ/Hlo+GhrRLO7N4AZYfDrw8m5o2OUanD5UVbDM5OzK0cmwLkY/NF1L65fPgVrj0SI4P+hybtgUpB+uptoOVFPzdRUGf1w7+g+YT22SfN7U6gAAAABJRU5ErkJggg==" alt="Unum" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=U';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Unum</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Broker Support Login</p>
+                        </a>
+                        
+                        <!-- Pacific Life -->
+                        <a href="https://loginportal.pacificlife.com/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100 p-1">
+                                    <img class="h-8 w-auto" src="https://www.pacificlife.com/content/dam/paclife/crp/images/logos/PL-Logo-Desktop.svg" alt="Pacific Life" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Pacific Life</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Agent Login Portal</p>
+                        </a>
+                        <!-- Equitable -->
+                        <a href="https://auth.equitable.com/login/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=equitable.com" alt="Equitable" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Equitable</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Agent Login</p>
+                        </a>
+                        <!-- Humana -->
+                        <a href="https://athena-portal.humana.com/AgentPortal/login?locale=us" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=humana.com" alt="Humana" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=H';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Humana</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Agent Login Portal</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Tools Section -->
+                <section id="tools" class="scroll-mt-24">
+                    <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
+                        Tools
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Census File Converter -->
+                        <a href="https://intelligent-file-converter-w-audit-beta-1-1-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <!-- Icon: File Spreadsheet/Converter -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Census Converter</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Convert census files</p>
+                        </a>
+                        <!-- Tiered Rate Calculator -->
+                        <a href="https://tiered-rate-calculator-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <!-- Icon: Calculator -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h3m-3-10h.01M9 17h.01M9 14h.01M12 14h.01M15 14h.01M12 17h.01M15 17h.01M9 10h.01M12 10h.01M15 10h.01M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Rate Calculator</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Calculate tiered rates</p>
+                        </a>
+                        <!-- SIC Code Finder -->
+                        <a href="https://intelligent-code-finder-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <!-- Icon: Search List/Code -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">SIC Finder</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Look up SIC codes</p>
+                        </a>
+                        <!-- PH Submission Audit -->
+                         <a href="https://health-application-auditor-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <!-- Icon: Clipboard Check -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">PH Audit</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Audit PH submissions</p>
+                        </a>
+                        <!-- Secure Upload Site -->
+                        <a href="https://next.paubox.com/forms/LinkBenefits%2CLLC/form/1cfe6e66-ed9b-4f8e-ae53-47a4703abd12?view=Edit" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
+                            <div class="flex items-center space-x-4 mb-2">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                                    <!-- Icon: Lock/Shield -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Secure Upload</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Securely send files</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Highspot Section -->
+                <section id="highspot" class="scroll-mt-24">
+                    <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
+                        Highspot Resources
+                    </h2>
+                    <div class="resource-card bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:border-brand-green/30">
+                        <!-- Highspot Header -->
+                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <div class="flex-shrink-0 h-8 w-8 rounded-lg bg-white flex items-center justify-center border border-gray-200">
+                                    <img src="https://www.google.com/s2/favicons?sz=64&domain=highspot.com" class="h-5 w-5" alt="Highspot" onerror="this.onerror=null;this.src='https://placehold.co/20x20/ffffff/000000?text=H';">
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold brand-black">Document Viewer</h3>
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Sales Enablement</p>
+                                </div>
+                            </div>
+                            <a href="https://view.highspot.com/viewer/ae1f85a1d5603ccf7cdfc69dc0f5a0e8" target="_blank" rel="noopener noreferrer" class="flex items-center text-brand-green hover:text-green-700 text-sm font-medium transition-colors">
+                                Open in New Tab
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </div>
+                        <!-- Highspot Iframe -->
+                        <div class="relative w-full h-[800px] bg-gray-50">
+                            <iframe 
+                                src="https://view.highspot.com/viewer/ae1f85a1d5603ccf7cdfc69dc0f5a0e8" 
+                                class="absolute inset-0 w-full h-full border-0" 
+                                allowfullscreen 
+                                title="Highspot Viewer"
+                                loading="lazy">
+                                <p class="text-center p-10 text-gray-500">
+                                    Your browser does not support inline frames. 
+                                    <a href="https://view.highspot.com/viewer/ae1f85a1d5603ccf7cdfc69dc0f5a0e8" target="_blank" class="text-brand-green underline">Click here to view the documents on Highspot.</a>
+                                </p>
+                            </iframe>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
         </div>
-        
-        <!-- Header Section -->
-        <header class="mb-10 text-center pt-8">
-            <img src="https://link-benefits.com/wp-content/uploads/2024/04/logo.png" alt="Link Benefits Logo" class="h-12 sm:h-16 mx-auto mb-6">
-            <h1 class="text-4xl sm:text-5xl font-bold brand-black mb-2">Team Resources</h1>
-            <p class="text-lg text-gray-600">Your daily hub for essential tools and links.</p>
-        </header>
-
-        <!-- Main Content -->
-        <main class="w-full max-w-5xl mx-auto">
-            <!-- Applications Section -->
-            <div class="mb-12">
-                <h2 class="text-2xl brand-black border-b pb-2 mb-6">Applications</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-
-                    <!-- Resource Tile 1: PerfectQuote -->
-                    <a href="https://app.perfectquote.io/login" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=perfectquote.io" alt="PerfectQuote" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">PerfectQuote</h3>
-                                <p class="text-sm text-gray-500">Quoting and proposal platform</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Accordion for HubSpot -->
-                    <div class="accordion-container resource-card bg-white rounded-xl border border-gray-200 shadow-sm">
-                        <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
-                            <div class="flex items-center space-x-4">
-                               <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=hubspot.com" alt="Hubspot" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=H';">
-                                </div>
-                                <div>
-                                    <h3 class="text-lg brand-black">HubSpot</h3>
-                                    <p class="text-sm text-gray-500">CRM Resources</p>
-                                </div>
-                            </div>
-                             <svg class="accordion-chevron w-6 h-6 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                              <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="px-6 pb-6 pt-0 border-t border-gray-100">
-                                <ul class="space-y-4 mt-4">
-                                    <li><a href="https://app.hubspot.com/login" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">CRM Login</a></li>
-                                    <li><a href="https://app-na2.hubspot.com/contacts/242169564/objects/0-3/views/337508730/board" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">Deals</a></li>
-                                    <li><a href="https://app-na2.hubspot.com/contacts/242169564/objects/0-1/views/337690835/list" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">Contacts</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Employee Navigator -->
-                    <a href="https://www.employeenavigator.com/identity/Account/Login?ReturnUrl=%2Fidentity%2Fconnect%2Fauthorize%2Fcallback%3FauthzId%3D16940681D9D39681197E4CC7357C76BE583AE4C7DE24D0F7CDEFF2BDAEF6C166" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=employeenavigator.com" alt="Employee Navigator" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Employee Navigator</h3>
-                                <p class="text-sm text-gray-500">Benefits administration</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Ease -->
-                    <a href="https://link-benefits.ease.com" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=ease.com" alt="Ease" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Ease</h3>
-                                <p class="text-sm text-gray-500">HR & benefits software</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Google Workspace Section -->
-            <div class="mb-12">
-                <h2 class="text-2xl brand-black border-b pb-2 mb-6">Google Workspace</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                     <!-- Gmail -->
-                    <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                               <img class="h-8 w-8" src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" alt="Gmail" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=G';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Gmail</h3>
-                                <p class="text-sm text-gray-500">Email client</p>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Google Calendar -->
-                    <a href="https://calendar.google.com" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                               <img class="h-8 w-8" src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_3_2x.png" alt="Google Calendar" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=C';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Google Calendar</h3>
-                                <p class="text-sm text-gray-500">Shared calendar</p>
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <!-- Google Drive -->
-                     <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                <img class="h-8 w-8" src="https://ssl.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png" alt="Google Drive" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=D';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Google Drive</h3>
-                                <p class="text-sm text-gray-500">Shared files</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Jotforms Section -->
-            <div class="mb-12">
-                <h2 class="text-2xl brand-black border-b pb-2 mb-6">Jotforms</h2>
-                <div class="grid grid-cols-1">
-                    <!-- Accordion for Jotforms -->
-                    <div class="accordion-container resource-card bg-white rounded-xl border border-gray-200 shadow-sm col-span-1 sm:col-span-2 lg:col-span-3">
-                        <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
-                            <div class="flex items-center space-x-4">
-                                <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=jotform.com" alt="Jotform" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=J';">
-                                </div>
-                                <div>
-                                    <h3 class="text-lg brand-black">Jotforms</h3>
-                                    <p class="text-sm text-gray-500">Online Forms</p>
-                                </div>
-                            </div>
-                            <svg class="accordion-chevron w-6 h-6 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                              <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="px-6 pb-6 pt-0 border-t border-gray-100">
-                                <ul class="space-y-4 mt-4">
-                                    <li class="flex items-center justify-between">
-                                        <a href="https://form.jotform.com/240387345870058" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-brand-green font-medium">Quote Intake Form</a>
-                                        <div class="flex items-center space-x-2">
-                                            <a href="https://www.jotform.com/inbox/240387345870058/6284986251518611200?" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-1 px-2 rounded">Inbox</a>
-                                            <button class="copy-btn text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-1 px-2 rounded" data-url="https://form.jotform.com/240387345870058">Copy</button>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-center justify-between">
-                                        <a href="https://form.jotform.com/241355673242152" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-brand-green font-medium">New Business Intake Form</a>
-                                        <div class="flex items-center space-x-2">
-                                            <a href="https://www.jotform.com/inbox/241355673242152/6128530002612612208" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-1 px-2 rounded">Inbox</a>
-                                            <button class="copy-btn text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-1 px-2 rounded" data-url="https://form.jotform.com/241355673242152">Copy</button>
-                                        </div>
-                                    </li>
-                                    <li class="flex items-center justify-between">
-                                        <a href="https://form.jotform.com/242735369567066" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-brand-green font-medium">Link Pool Sign Up Form</a>
-                                         <div class="flex items-center space-x-2">
-                                            <button class="copy-btn text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-1 px-2 rounded" data-url="https://form.jotform.com/242735369567066">Copy</button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Carriers Section -->
-            <div class="mb-12">
-                <h2 class="text-2xl brand-black border-b pb-2 mb-6">Carriers</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                    
-                    <!-- Accordion for Priority Health -->
-                    <div class="accordion-container resource-card bg-white rounded-xl border border-gray-200 shadow-sm">
-                        <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
-                            <div class="flex items-center space-x-4">
-                                <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=priorityhealth.com" alt="Priority Health" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
-                                </div>
-                                <div>
-                                    <h3 class="text-lg brand-black">Priority Health</h3>
-                                    <p class="text-sm text-gray-500">Carrier Resources</p>
-                                </div>
-                            </div>
-                            <svg class="accordion-chevron w-6 h-6 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                              <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="px-6 pb-6 pt-0 border-t border-gray-100">
-                                <ul class="space-y-4 mt-4">
-                                    <li><a href="https://agent.priorityhealth.com/agents/s/login/" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">Agent Portal</a></li>
-                                    <li><a href="https://www.priorityhealth.com/app/priority-quote/#/dashboard" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">Priority Quote</a></li>
-                                    <li><a href="https://www.priorityhealth.com/agent/center/group/small/agent-resources-library/resources-to-help-you-sell" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">Sales Resources</a></li>
-                                    <li><a href="https://www.priorityhealth.com/agent/center/group/small/agent-resources-library/tools-for-open-enrollment" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">Enrollment Resources</a></li>
-                                    <li><a href="https://docs.google.com/document/d/1bWyybmK6vHlTYwM2ryYouRPKvWTzvyfw/edit?usp=sharing&ouid=103122112685413353287&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">Onboarding Guidelines</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                     <!-- Accordion for MetLife -->
-                    <div class="accordion-container resource-card bg-white rounded-xl border border-gray-200 shadow-sm">
-                        <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
-                            <div class="flex items-center space-x-4">
-                                <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=metlife.com" alt="MetLife" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=M';">
-                                </div>
-                                <div>
-                                    <h3 class="text-lg brand-black">MetLife</h3>
-                                    <p class="text-sm text-gray-500">Carrier Resources</p>
-                                </div>
-                            </div>
-                            <svg class="accordion-chevron w-6 h-6 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                              <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="px-6 pb-6 pt-0 border-t border-gray-100">
-                                <ul class="space-y-4 mt-4">
-                                    <li><a href="https://access.online.metlife.com/" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">Account Login</a></li>
-                                    <li><a href="https://docs.google.com/spreadsheets/d/1c9-axrbHlLILAHMEKD1CWHoLxxqkvd9Y/edit?usp=sharing&ouid=103122112685413353287&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" class="block text-gray-600 hover:text-brand-green font-medium">2-99 Rating Workbook</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Unum -->
-                    <a href="https://login.unum.com/" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                <img class="h-8 w-8" src="https://cdn.prod.website-files.com/63c140cca12dc30690fce304/667e6d3ebe6795dcaf594b6d_unum.svg" alt="Unum" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=U';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Unum</h3>
-                                <p class="text-sm text-gray-500">Agent Login</p>
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <!-- Pacific Life -->
-                    <a href="https://loginportal.pacificlife.com/" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center p-1">
-                                <img class="h-8 w-auto" src="https://www.pacificlife.com/content/dam/paclife/crp/images/logos/PL-Logo-Desktop.svg" alt="Pacific Life" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Pacific Life</h3>
-                                <p class="text-sm text-gray-500">Agent Login</p>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- Equitable -->
-                    <a href="https://auth.equitable.com/login/" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=equitable.com" alt="Equitable" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Equitable</h3>
-                                <p class="text-sm text-gray-500">Agent Login</p>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- Humana -->
-                    <a href="https://athena-portal.humana.com/AgentPortal/login?locale=us" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-white flex items-center justify-center">
-                                <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=humana.com" alt="Humana" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=H';">
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Humana</h3>
-                                <p class="text-sm text-gray-500">Agent Login</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Tools Section -->
-            <div>
-                <h2 class="text-2xl brand-black border-b pb-2 mb-6">Tools</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                    <!-- Census File Converter -->
-                    <a href="https://intelligent-file-converter-w-audit-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Census File Converter</h3>
-                                <p class="text-sm text-gray-500">File conversion utility</p>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- Tiered Rate Calculator -->
-                    <a href="https://tiered-rate-calculator-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h3m-3-10h.01M9 17h.01M9 14h.01M12 14h.01M15 14h.01M12 17h.01M15 17h.01M9 10h.01M12 10h.01M15 10h.01M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">Tiered Rate Calculator</h3>
-                                <p class="text-sm text-gray-500">Calculate tiered rates</p>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- SIC Code Finder -->
-                    <a href="https://intelligent-code-finder-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 21h7a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2zM10 21h-4m4 0V5" />
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5v16" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">SIC Code Finder</h3>
-                                <p class="text-sm text-gray-500">Look up SIC codes</p>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- PH Submission Audit -->
-                     <a href="https://health-application-auditor-482082376209.us-west1.run.app" target="_blank" rel="noopener noreferrer" class="resource-card group block bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-lg brand-black">PH Submission Audit</h3>
-                                <p class="text-sm text-gray-500">Audit PH submissions</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="mt-12 text-center">
-            <p class="text-sm text-gray-500">&copy; 2024. All rights reserved.</p>
-        </footer>
-
     </div>
 
     <script>
-        // Accordion functionality
-        document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const content = header.nextElementSibling;
-                const chevron = header.querySelector('.accordion-chevron');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Accordion functionality
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const chevron = header.querySelector('.accordion-chevron');
 
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                    chevron.classList.remove('rotate-180');
-                } else {
-                    document.querySelectorAll('.accordion-content').forEach(c => {
-                        c.style.maxHeight = null;
-                        c.previousElementSibling.querySelector('.accordion-chevron').classList.remove('rotate-180');
-                    });
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    chevron.classList.add('rotate-180');
-                } 
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        chevron.classList.remove('rotate-180');
+                    } else {
+                        document.querySelectorAll('.accordion-content').forEach(c => {
+                            c.style.maxHeight = null;
+                            c.previousElementSibling.querySelector('.accordion-chevron').classList.remove('rotate-180');
+                        });
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        chevron.classList.add('rotate-180');
+                    } 
+                });
             });
-        });
 
-        // Copy button functionality
-        document.querySelectorAll('.copy-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault(); 
-                e.stopPropagation(); 
+            // Copy button functionality
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    e.stopPropagation(); 
 
-                const url = button.dataset.url;
-                const textarea = document.createElement('textarea');
-                textarea.value = url;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
+                    const url = button.dataset.url;
+                    
+                    if (navigator.clipboard && window.isSecureContext) {
+                         navigator.clipboard.writeText(url).then(() => {
+                            const originalText = button.textContent;
+                            button.textContent = 'Copied!';
+                            setTimeout(() => {
+                                button.textContent = originalText;
+                            }, 2000);
+                        });
+                    } else {
+                        // Fallback for non-secure contexts or older browsers
+                        const textarea = document.createElement('textarea');
+                        textarea.value = url;
+                        textarea.style.position = "fixed";
+                        textarea.style.left = "-9999px";
+                        document.body.appendChild(textarea);
+                        textarea.focus();
+                        textarea.select();
+                        
+                        try {
+                            document.execCommand('copy');
+                            const originalText = button.textContent;
+                            button.textContent = 'Copied!';
+                            setTimeout(() => {
+                                button.textContent = originalText;
+                            }, 2000);
+                        } catch (err) {
+                            console.error('Fallback: Oops, unable to copy', err);
+                        }
+                        
+                        document.body.removeChild(textarea);
+                    }
+                });
+            });
 
-                const originalText = button.textContent;
-                button.textContent = 'Copied!';
-                setTimeout(() => {
-                    button.textContent = originalText;
-                }, 2000); 
+            // Search functionality
+            const searchInputDesktop = document.getElementById('desktop-search');
+            const searchInputMobile = document.getElementById('mobile-search');
+            
+            function performSearch(query) {
+                const searchTerm = query.toLowerCase();
+                const sections = ['applications', 'workspace', 'jotforms', 'carriers', 'tools', 'highspot'];
+                
+                sections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
+                    if (!section) return;
+                    
+                    const items = section.querySelectorAll('.resource-card, .accordion-container');
+                    let sectionHasVisibleItems = false;
+                    
+                    items.forEach(item => {
+                        // Get text content from h3 (title) and p (description)
+                        const title = item.querySelector('h3')?.textContent.toLowerCase() || '';
+                        const desc = item.querySelector('p.text-sm')?.textContent.toLowerCase() || '';
+                        
+                        // Also check accordion links if it's an accordion
+                        let linksText = '';
+                        if (item.classList.contains('accordion-container')) {
+                            const links = item.querySelectorAll('ul li a');
+                            links.forEach(link => {
+                                linksText += link.textContent.toLowerCase() + ' ';
+                            });
+                        }
+                        
+                        if (title.includes(searchTerm) || desc.includes(searchTerm) || linksText.includes(searchTerm)) {
+                            item.style.display = '';
+                            sectionHasVisibleItems = true;
+                            
+                            // Open accordion if search matches content inside
+                            if (item.classList.contains('accordion-container') && linksText.includes(searchTerm) && searchTerm.length > 2) {
+                                const content = item.querySelector('.accordion-content');
+                                const chevron = item.querySelector('.accordion-chevron');
+                                content.style.maxHeight = content.scrollHeight + "px";
+                                chevron.classList.add('rotate-180');
+                            }
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    
+                    // Show/Hide section header based on results
+                    if (sectionHasVisibleItems) {
+                        section.style.display = '';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+
+            if (searchInputDesktop) {
+                searchInputDesktop.addEventListener('input', (e) => performSearch(e.target.value));
+            }
+            if (searchInputMobile) {
+                searchInputMobile.addEventListener('input', (e) => performSearch(e.target.value));
+            }
+
+            // Highlight active nav item on scroll
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href').includes(current)) {
+                        item.classList.add('active');
+                    }
+                });
             });
         });
     </script>
