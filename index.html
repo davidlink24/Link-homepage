@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Resources</title>
     <link rel="icon" href="https://github.com/davidlink24/Link-icons/blob/main/android-chrome-192x192.png?raw=true" type="image/png">
-    <!-- Tailwind CSS -->
+    
+    <!-- Tailwind CSS with Dark Mode Config -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    
     <!-- Google Fonts: Inter & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,13 +24,18 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
         }
+        html.dark body {
+            background-color: #0f172a; /* Slate 900 */
+        }
         h1, h2, h3, .nav-item {
             font-family: 'Poppins', sans-serif;
         }
         /* Custom colors from the logo */
         .brand-green { color: #00843D; }
         .bg-brand-green { background-color: #00843D; }
+        
         .brand-black { color: #231F20; }
+        html.dark .brand-black { color: #f8fafc; }
         
         /* Card Hover Effects */
         .resource-card, .accordion-container {
@@ -32,6 +44,10 @@
         .resource-card:hover:not(.accordion-container), .accordion-container:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border-color: #00843D;
+        }
+        html.dark .resource-card:hover:not(.accordion-container), html.dark .accordion-container:hover {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
             border-color: #00843D;
         }
 
@@ -51,17 +67,22 @@
             color: #00843D;
             border-right: 3px solid #00843D;
         }
+        html.dark .nav-item.active {
+            background-color: rgba(0, 132, 61, 0.2);
+            color: #4ade80; /* Lighter green for dark mode readability */
+            border-right: 3px solid #4ade80;
+        }
     </style>
 </head>
-<body class="antialiased text-gray-800 bg-gradient-to-br from-gray-50 via-gray-50 to-green-50 min-h-screen">
+<body class="antialiased text-gray-800 dark:text-gray-200 bg-gradient-to-br from-gray-50 via-gray-50 to-green-50 dark:from-slate-900 dark:via-slate-900 dark:to-green-900/10 min-h-screen transition-colors duration-200">
 
     <div class="flex flex-col md:flex-row min-h-screen">
         
         <!-- Sidebar Navigation (Desktop) / Top Bar (Mobile) -->
-        <aside class="w-full md:w-64 bg-white/80 backdrop-blur-md border-b md:border-b-0 md:border-r border-gray-200 flex-shrink-0 md:h-screen md:sticky md:top-0 z-20">
+        <aside class="w-full md:w-64 bg-white/80 dark:bg-slate-800/90 backdrop-blur-md border-b md:border-b-0 md:border-r border-gray-200 dark:border-slate-700 flex-shrink-0 md:h-screen md:sticky md:top-0 z-20 transition-colors duration-200">
             <div class="p-6 flex flex-col h-full">
                 <!-- Logo Area -->
-                <div class="flex items-center justify-center md:justify-start mb-8">
+                <div class="flex items-center justify-center md:justify-start mb-8 bg-white dark:bg-slate-200 p-2 rounded-xl">
                     <img src="https://link-benefits.com/wp-content/uploads/2024/04/logo.png" alt="Link Benefits Logo" class="h-10 w-auto">
                 </div>
 
@@ -73,37 +94,44 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
-                        <input type="text" id="mobile-search" class="search-input block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-brand-green focus:border-brand-green sm:text-sm transition duration-150 ease-in-out" placeholder="Search resources...">
+                        <input type="text" id="mobile-search" class="search-input block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg leading-5 bg-gray-50 dark:bg-slate-700 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:bg-white dark:focus:bg-slate-600 focus:ring-1 focus:ring-brand-green focus:border-brand-green sm:text-sm transition duration-150 ease-in-out" placeholder="Search resources...">
                     </div>
                 </div>
 
                 <!-- Navigation Links -->
                 <nav class="space-y-1 flex-1 overflow-y-auto hidden md:block">
-                    <a href="#applications" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                    <a href="#favorites" id="nav-favorites" class="hidden nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors">
+                        <svg class="w-4 h-4 mr-2 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                        <span class="truncate">Favorites</span>
+                    </a>
+                    <a href="#applications" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors">
                         <span class="truncate">Applications</span>
                     </a>
-                    <a href="#workspace" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                    <a href="#hr" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors">
+                        <span class="truncate">HR & Payroll</span>
+                    </a>
+                    <a href="#workspace" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors">
                         <span class="truncate">Google Workspace</span>
                     </a>
-                    <a href="#jotforms" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                    <a href="#jotforms" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors">
                         <span class="truncate">Jotforms</span>
                     </a>
-                    <a href="#carriers" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                    <a href="#carriers" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors">
                         <span class="truncate">Carriers</span>
                     </a>
-                    <a href="#education" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                    <a href="#education" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors">
                         <span class="truncate">Education</span>
                     </a>
-                    <a href="#tools" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                    <a href="#tools" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors">
                         <span class="truncate">Tools</span>
                     </a>
-                    <a href="#highspot" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-l-md hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                    <a href="#highspot" class="nav-item group flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-l-md hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors">
                         <span class="truncate">Highspot</span>
                     </a>
                 </nav>
 
                 <!-- Footer in Sidebar -->
-                <div class="mt-auto pt-6 border-t border-gray-200 hidden md:block">
+                <div class="mt-auto pt-6 border-t border-gray-200 dark:border-slate-700 hidden md:block">
                     <p class="text-xs text-center text-gray-400">&copy; 2026 Link Benefits</p>
                 </div>
             </div>
@@ -112,25 +140,50 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col relative">
             
-            <!-- Top Bar (Desktop Search) -->
-            <div class="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-200 px-8 py-4 flex justify-between items-center">
+            <!-- Top Bar (Desktop Search + Dark Mode Toggle) -->
+            <div class="sticky top-0 z-10 bg-white/80 dark:bg-slate-800/90 backdrop-blur-md border-b border-gray-200 dark:border-slate-700 px-8 py-4 flex justify-between items-center transition-colors duration-200">
                 
                 <!-- Desktop Search -->
                 <div class="hidden md:block w-full max-w-xl">
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
-                        <input type="text" id="desktop-search" class="search-input block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-brand-green focus:border-brand-green sm:text-sm transition duration-150 ease-in-out" placeholder="Search tools, carriers, or forms...">
+                        <input type="text" id="desktop-search" class="search-input block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg leading-5 bg-gray-50 dark:bg-slate-700 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:bg-white dark:focus:bg-slate-600 focus:ring-1 focus:ring-brand-green focus:border-brand-green sm:text-sm transition duration-150 ease-in-out" placeholder="Search tools, carriers, or forms...">
                     </div>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-lg text-gray-500 hover:text-brand-green dark:text-gray-400 dark:hover:text-brand-green bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 transition-colors focus:outline-none" aria-label="Toggle Dark Mode">
+                        <!-- Sun Icon (shows in dark mode) -->
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <!-- Moon Icon (shows in light mode) -->
+                        <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
                 </div>
             </div>
 
             <!-- Scrollable Content -->
-            <div class="p-4 sm:p-8 space-y-12">
+            <div class="p-4 sm:p-8 space-y-12" id="main-content">
                 
+                <!-- Favorites Section (Hidden by default, populated by JS) -->
+                <section id="favorites" class="scroll-mt-24 hidden">
+                    <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                        My Favorites
+                    </h2>
+                    <div id="favorites-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Populated dynamically -->
+                    </div>
+                </section>
+
                 <!-- Applications Section -->
                 <section id="applications" class="scroll-mt-24">
                     <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
@@ -138,30 +191,40 @@
                     </h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                        <!-- Resource Tile 1: PerfectQuote -->
-                        <a href="https://app.perfectquote.io/login" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=perfectquote.io" alt="PerfectQuote" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
+                        <!-- PerfectQuote -->
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="app-pq">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="app-pq" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://app.perfectquote.io/login" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=perfectquote.io" alt="PerfectQuote" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">PerfectQuote</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Quoting</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">PerfectQuote</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Quoting</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Quoting and proposal platform</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Quoting and proposal platform</p>
+                            </a>
+                        </div>
 
                         <!-- Accordion for HubSpot -->
-                        <div class="accordion-container bg-white rounded-xl border border-gray-100 shadow-sm hover:border-brand-green/30">
-                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
-                                <div class="flex items-center space-x-4">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                        <div class="relative accordion-container bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm hover:border-brand-green/30" data-id="app-hs">
+                            <button class="favorite-btn absolute top-4 right-12 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="app-hs" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer relative z-10">
+                                <div class="flex items-center space-x-4 pr-16">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
                                         <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=hubspot.com" alt="Hubspot" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=H';">
                                     </div>
                                     <div>
                                         <h3 class="text-lg font-semibold brand-black">HubSpot</h3>
-                                        <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">CRM & Sales</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">CRM & Sales</p>
                                     </div>
                                 </div>
                                 <svg class="accordion-chevron w-5 h-5 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -169,45 +232,85 @@
                                 </svg>
                             </div>
                             <div class="accordion-content">
-                                <div class="px-6 pb-6 pt-0 border-t border-gray-50">
-                                    <ul class="space-y-3 mt-4">
-                                        <li><a href="https://app.hubspot.com/login" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Login</a></li>
-                                        <li><a href="https://app-na2.hubspot.com/contacts/242169564/objects/0-3/views/337508730/board" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Deals</a></li>
-                                        <li><a href="https://app-na2.hubspot.com/reports-dashboard/242169564/view/135711189" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Sales Dashboard</a></li>
-                                        <li><a href="https://app-na2.hubspot.com/reports-dashboard/242169564/view/135782673" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Policies Dashboard</a></li>
-                                        <li><a href="https://app-na2.hubspot.com/contacts/242169564/objects/0-1/views/337690835/list" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Contacts</a></li>
+                                <div class="px-6 pb-6 pt-0 border-t border-gray-50 dark:border-slate-700">
+                                    <ul class="space-y-3 mt-4 relative z-10">
+                                        <li><a href="https://app.hubspot.com/login" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Login</a></li>
+                                        <li><a href="https://app-na2.hubspot.com/contacts/242169564/objects/0-3/views/337508730/board" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Deals</a></li>
+                                        <li><a href="https://app-na2.hubspot.com/reports-dashboard/242169564/view/135711189" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Sales Dashboard</a></li>
+                                        <li><a href="https://app-na2.hubspot.com/reports-dashboard/242169564/view/135782673" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Policies Dashboard</a></li>
+                                        <li><a href="https://app-na2.hubspot.com/contacts/242169564/objects/0-1/views/337690835/list" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Contacts</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Employee Navigator -->
-                        <a href="https://www.employeenavigator.com/identity/Account/Login?ReturnUrl=%2Fidentity%2Fconnect%2Fauthorize%2Fcallback%3FauthzId%3D16940681D9D39681197E4CC7357C76BE583AE4C7DE24D0F7CDEFF2BDAEF6C166" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=employeenavigator.com" alt="Employee Navigator" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="app-en">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="app-en" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://www.employeenavigator.com/identity/Account/Login?ReturnUrl=%2Fidentity%2Fconnect%2Fauthorize%2Fcallback%3FauthzId%3D16940681D9D39681197E4CC7357C76BE583AE4C7DE24D0F7CDEFF2BDAEF6C166" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=employeenavigator.com" alt="Employee Navigator" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Employee Navigator</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Ben Admin</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Employee Navigator</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Ben Admin</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Benefits administration software</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Benefits administration software</p>
+                            </a>
+                        </div>
 
                         <!-- Ease -->
-                        <a href="https://link-benefits.ease.com" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=ease.com" alt="Ease" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="app-ease">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="app-ease" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://link-benefits.ease.com" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=ease.com" alt="Ease" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Ease</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Ben Admin</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Ease</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Ben Admin</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">HR & benefits software</p>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- HR & Payroll Section -->
+                <section id="hr" class="scroll-mt-24">
+                    <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
+                        HR & Payroll
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Gusto Card -->
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="hr-gusto">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="hr-gusto" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://app.gusto.com/login" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=gusto.com" alt="Gusto" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=G';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Gusto</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Payroll & HR</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">HR & benefits software</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Paystubs, time off, and holiday calendar</p>
+                            </a>
+                        </div>
                     </div>
                 </section>
 
@@ -218,46 +321,64 @@
                     </h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                          <!-- Gmail -->
-                        <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                   <img class="h-8 w-8" src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" alt="Gmail" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=G';">
+                         <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="ws-gmail">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="ws-gmail" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                    <img class="h-8 w-8" src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico" alt="Gmail" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=G';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Gmail</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Email</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Gmail</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Email</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Access your company email</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Access your company email</p>
+                            </a>
+                        </div>
 
                         <!-- Google Calendar -->
-                        <a href="https://calendar.google.com" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                   <img class="h-8 w-8" src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_3_2x.png" alt="Google Calendar" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=C';">
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="ws-cal">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="ws-cal" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://calendar.google.com" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                    <img class="h-8 w-8" src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_3_2x.png" alt="Google Calendar" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=C';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Calendar</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Scheduling</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Calendar</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Scheduling</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">View and manage events</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">View and manage events</p>
+                            </a>
+                        </div>
                         
                         <!-- Google Drive -->
-                         <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <img class="h-8 w-8" src="https://ssl.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png" alt="Google Drive" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=D';">
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="ws-drive">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="ws-drive" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://ssl.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png" alt="Google Drive" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=D';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Drive</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Files</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Drive</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Files</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Shared file storage</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Shared file storage</p>
+                            </a>
+                        </div>
                     </div>
                 </section>
 
@@ -266,58 +387,108 @@
                     <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
                         Jotforms
                     </h2>
-                    <div class="grid grid-cols-1">
-                        <!-- Accordion for Jotforms -->
-                        <div class="accordion-container resource-card bg-white rounded-xl border border-gray-100 shadow-sm hover:border-brand-green/30">
-                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
-                                <div class="flex items-center space-x-4">
-                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        
+                        <!-- Quote Intake Form -->
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="jf-quote">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="jf-quote" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
                                         <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=jotform.com" alt="Jotform" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=J';">
                                     </div>
                                     <div>
-                                        <h3 class="text-lg font-semibold brand-black">Jotforms</h3>
-                                        <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Online Forms</p>
+                                        <h3 class="text-lg font-semibold brand-black leading-tight">Quote Intake</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide mt-1">Online Form</p>
                                     </div>
                                 </div>
-                                <svg class="accordion-chevron w-5 h-5 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                  <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
-                                </svg>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Submit a new quote request</p>
                             </div>
-                            <div class="accordion-content">
-                                <div class="px-6 pb-6 pt-0 border-t border-gray-50">
-                                    <ul class="space-y-4 mt-4">
-                                        <li class="flex items-center justify-between group/item">
-                                            <a href="https://link-benefits.jotform.com/240387345870058" target="_blank" rel="noopener noreferrer" class="flex-1 text-gray-600 hover:text-brand-green font-medium text-sm">Quote Intake Form</a>
-                                            <div class="flex items-center space-x-2 opacity-100 sm:opacity-0 sm:group-hover/item:opacity-100 transition-opacity">
-                                                <a href="https://link-benefits.jotform.com/inbox/240387345870058/6284986251518611200?" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-1.5 px-3 rounded transition-colors">Inbox</a>
-                                                <button class="copy-btn text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-1.5 px-3 rounded transition-colors" data-url="https://link-benefits.jotform.com/240387345870058">Copy Link</button>
-                                            </div>
-                                        </li>
-                                        <li class="flex items-center justify-between group/item">
-                                            <a href="https://link-benefits.jotform.com/241355673242152" target="_blank" rel="noopener noreferrer" class="flex-1 text-gray-600 hover:text-brand-green font-medium text-sm">New Business Intake Form</a>
-                                            <div class="flex items-center space-x-2 opacity-100 sm:opacity-0 sm:group-hover/item:opacity-100 transition-opacity">
-                                                <a href="https://link-benefits.jotform.com/inbox/241355673242152/6128530002612612208" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-1.5 px-3 rounded transition-colors">Inbox</a>
-                                                <button class="copy-btn text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-1.5 px-3 rounded transition-colors" data-url="https://link-benefits.jotform.com/241355673242152">Copy Link</button>
-                                            </div>
-                                        </li>
-                                        <li class="flex items-center justify-between group/item">
-                                            <a href="https://link-benefits.jotform.com/242735369567066" target="_blank" rel="noopener noreferrer" class="flex-1 text-gray-600 hover:text-brand-green font-medium text-sm">Link Pool Sign Up Form</a>
-                                             <div class="flex items-center space-x-2 opacity-100 sm:opacity-0 sm:group-hover/item:opacity-100 transition-opacity">
-                                                <a href="https://link-benefits.jotform.com/inbox/242735369567066" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-1.5 px-3 rounded transition-colors">Inbox</a>
-                                                <button class="copy-btn text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-1.5 px-3 rounded transition-colors" data-url="https://link-benefits.jotform.com/242735369567066">Copy Link</button>
-                                            </div>
-                                        </li>
-                                        <li class="flex items-center justify-between group/item">
-                                            <a href="https://link-benefits.jotform.com/242565590959169" target="_blank" rel="noopener noreferrer" class="flex-1 text-gray-600 hover:text-brand-green font-medium text-sm">Benefit Admin Build Form</a>
-                                             <div class="flex items-center space-x-2 opacity-100 sm:opacity-0 sm:group-hover/item:opacity-100 transition-opacity">
-                                                <a href="https://link-benefits.jotform.com/inbox/242565590959169" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-1.5 px-3 rounded transition-colors">Inbox</a>
-                                                <button class="copy-btn text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-1.5 px-3 rounded transition-colors" data-url="https://link-benefits.jotform.com/242565590959169">Copy Link</button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="mt-4 flex flex-wrap gap-2 pt-4 border-t border-gray-50 dark:border-slate-700">
+                                <a href="https://link-benefits.jotform.com/240387345870058" target="_blank" rel="noopener noreferrer" class="text-xs bg-brand-green hover:bg-green-700 text-white font-medium py-1.5 px-3 rounded transition-colors flex items-center">Open Form</a>
+                                <a href="https://link-benefits.jotform.com/inbox/240387345870058/6284986251518611200?" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 font-medium py-1.5 px-3 rounded transition-colors flex items-center">Inbox</a>
+                                <button class="copy-btn text-xs bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 font-medium py-1.5 px-3 rounded transition-colors flex items-center" data-url="https://link-benefits.jotform.com/240387345870058">Copy Link</button>
                             </div>
                         </div>
+
+                        <!-- New Business Intake Form -->
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="jf-newbiz">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="jf-newbiz" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=jotform.com" alt="Jotform" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=J';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black leading-tight">New Business</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide mt-1">Online Form</p>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">New business intake form</p>
+                            </div>
+                            <div class="mt-4 flex flex-wrap gap-2 pt-4 border-t border-gray-50 dark:border-slate-700">
+                                <a href="https://link-benefits.jotform.com/241355673242152" target="_blank" rel="noopener noreferrer" class="text-xs bg-brand-green hover:bg-green-700 text-white font-medium py-1.5 px-3 rounded transition-colors flex items-center">Open Form</a>
+                                <a href="https://link-benefits.jotform.com/inbox/241355673242152/6128530002612612208" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 font-medium py-1.5 px-3 rounded transition-colors flex items-center">Inbox</a>
+                                <button class="copy-btn text-xs bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 font-medium py-1.5 px-3 rounded transition-colors flex items-center" data-url="https://link-benefits.jotform.com/241355673242152">Copy Link</button>
+                            </div>
+                        </div>
+
+                        <!-- Link Pool Sign Up Form -->
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="jf-pool">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="jf-pool" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=jotform.com" alt="Jotform" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=J';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black leading-tight">Link Pool Sign Up</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide mt-1">Online Form</p>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Sign up form for the Link Pool</p>
+                            </div>
+                            <div class="mt-4 flex flex-wrap gap-2 pt-4 border-t border-gray-50 dark:border-slate-700">
+                                <a href="https://link-benefits.jotform.com/242735369567066" target="_blank" rel="noopener noreferrer" class="text-xs bg-brand-green hover:bg-green-700 text-white font-medium py-1.5 px-3 rounded transition-colors flex items-center">Open Form</a>
+                                <a href="https://link-benefits.jotform.com/inbox/242735369567066" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 font-medium py-1.5 px-3 rounded transition-colors flex items-center">Inbox</a>
+                                <button class="copy-btn text-xs bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 font-medium py-1.5 px-3 rounded transition-colors flex items-center" data-url="https://link-benefits.jotform.com/242735369567066">Copy Link</button>
+                            </div>
+                        </div>
+
+                        <!-- Benefit Admin Build Form -->
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="jf-benadmin">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="jf-benadmin" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=jotform.com" alt="Jotform" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=J';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black leading-tight">Benefit Admin Build</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide mt-1">Online Form</p>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Build out benefit administration</p>
+                            </div>
+                            <div class="mt-4 flex flex-wrap gap-2 pt-4 border-t border-gray-50 dark:border-slate-700">
+                                <a href="https://link-benefits.jotform.com/242565590959169" target="_blank" rel="noopener noreferrer" class="text-xs bg-brand-green hover:bg-green-700 text-white font-medium py-1.5 px-3 rounded transition-colors flex items-center">Open Form</a>
+                                <a href="https://link-benefits.jotform.com/inbox/242565590959169" target="_blank" rel="noopener noreferrer" class="text-xs bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 font-medium py-1.5 px-3 rounded transition-colors flex items-center">Inbox</a>
+                                <button class="copy-btn text-xs bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 font-medium py-1.5 px-3 rounded transition-colors flex items-center" data-url="https://link-benefits.jotform.com/242565590959169">Copy Link</button>
+                            </div>
+                        </div>
+
                     </div>
                 </section>
 
@@ -329,15 +500,19 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         
                         <!-- Accordion for Priority Health -->
-                        <div class="accordion-container resource-card bg-white rounded-xl border border-gray-100 shadow-sm hover:border-brand-green/30">
-                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
-                                <div class="flex items-center space-x-4">
-                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                        <div class="relative accordion-container resource-card bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm hover:border-brand-green/30" data-id="car-ph">
+                            <button class="favorite-btn absolute top-4 right-12 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="car-ph" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer relative z-10">
+                                <div class="flex items-center space-x-4 pr-16">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
                                         <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=priorityhealth.com" alt="Priority Health" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
                                     </div>
                                     <div>
                                         <h3 class="text-lg font-semibold brand-black">Priority Health</h3>
-                                        <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Carrier</p>
                                     </div>
                                 </div>
                                 <svg class="accordion-chevron w-5 h-5 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -345,28 +520,32 @@
                                 </svg>
                             </div>
                             <div class="accordion-content">
-                                <div class="px-6 pb-6 pt-0 border-t border-gray-50">
-                                    <ul class="space-y-3 mt-4">
-                                        <li><a href="https://agent.priorityhealth.com/agents/s/login/" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Agent Portal</a></li>
-                                        <li><a href="https://www.priorityhealth.com/app/priority-quote/#/dashboard" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Priority Quote</a></li>
-                                        <li><a href="https://www.priorityhealth.com/agent/center/group/small/agent-resources-library/resources-to-help-you-sell" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Sales Resources</a></li>
-                                        <li><a href="https://www.priorityhealth.com/agent/center/group/small/agent-resources-library/tools-for-open-enrollment" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Enrollment Resources</a></li>
-                                        <li><a href="https://docs.google.com/document/d/1bWyybmK6vHlTYwM2ryYouRPKvWTzvyfw/edit?usp=sharing&ouid=103122112685413353287&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Onboarding Guidelines</a></li>
+                                <div class="px-6 pb-6 pt-0 border-t border-gray-50 dark:border-slate-700">
+                                    <ul class="space-y-3 mt-4 relative z-10">
+                                        <li><a href="https://agent.priorityhealth.com/agents/s/login/" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Agent Portal</a></li>
+                                        <li><a href="https://www.priorityhealth.com/app/priority-quote/#/dashboard" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Priority Quote</a></li>
+                                        <li><a href="https://www.priorityhealth.com/agent/center/group/small/agent-resources-library/resources-to-help-you-sell" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Sales Resources</a></li>
+                                        <li><a href="https://www.priorityhealth.com/agent/center/group/small/agent-resources-library/tools-for-open-enrollment" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Enrollment Resources</a></li>
+                                        <li><a href="https://docs.google.com/document/d/1bWyybmK6vHlTYwM2ryYouRPKvWTzvyfw/edit?usp=sharing&ouid=103122112685413353287&rtpof=true&sd=true" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Onboarding Guidelines</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
                          <!-- Accordion for MetLife -->
-                        <div class="accordion-container resource-card bg-white rounded-xl border border-gray-100 shadow-sm hover:border-brand-green/30">
-                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer">
-                                <div class="flex items-center space-x-4">
-                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
+                         <div class="relative accordion-container resource-card bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm hover:border-brand-green/30" data-id="car-ml">
+                            <button class="favorite-btn absolute top-4 right-12 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="car-ml" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <div class="accordion-header flex items-center justify-between p-6 cursor-pointer relative z-10">
+                                <div class="flex items-center space-x-4 pr-16">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
                                         <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=metlife.com" alt="MetLife" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=M';">
                                     </div>
                                     <div>
                                         <h3 class="text-lg font-semibold brand-black">MetLife</h3>
-                                        <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Carrier</p>
                                     </div>
                                 </div>
                                 <svg class="accordion-chevron w-5 h-5 text-gray-400 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -374,68 +553,94 @@
                                 </svg>
                             </div>
                             <div class="accordion-content">
-                                <div class="px-6 pb-6 pt-0 border-t border-gray-50">
-                                    <ul class="space-y-3 mt-4">
-                                        <li><a href="https://access.online.metlife.com/" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>Account Login</a></li>
-                                        <li><a href="https://docs.google.com/spreadsheets/d/1c9-axrbHlLILAHMEKD1CWHoLxxqkvd9Y/export?format=xlsx" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 mr-3"></span>2-99 Rating Workbook</a></li>
+                                <div class="px-6 pb-6 pt-0 border-t border-gray-50 dark:border-slate-700">
+                                    <ul class="space-y-3 mt-4 relative z-10">
+                                        <li><a href="https://access.online.metlife.com/" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>Account Login</a></li>
+                                        <li><a href="https://docs.google.com/spreadsheets/d/1c9-axrbHlLILAHMEKD1CWHoLxxqkvd9Y/export?format=xlsx" target="_blank" rel="noopener noreferrer" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-brand-green dark:hover:text-brand-green font-medium text-sm"><span class="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-slate-600 mr-3"></span>2-99 Rating Workbook</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Unum -->
-                        <a href="https://login.unum.com/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <img class="h-8 w-auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAllBMVEUBUpT///8AUJMATpJ9nsBHgbIPYp5OgK4fbKYATJEASY/5+/0AR48AQYwAP4sASZDO3Ona4+2PsM3r8ffR4OwtcKaSrso7baMiZZ+FpcV2nsLl7vUAVpgOWJdYjLhwlr1kirW60eNbfqueu9TG1OMyaaGqxNmRs89VircxbqWKpsajtM1Ddahqi7RSeal8lro6e6/Dzt1XAIx8AAAG30lEQVR4nO2daXuiOhSAw4lFwyKbCygojEhrx+nt/f9/7oIdq041hLZOEu55P9c8eZuFrCfEOMe2g3C1N1OiJ5BNV6FvXygZ5NwvWIzGHgXZGf08ANRyzdCPrhrafmJaGtu9Aw5Zl/ZHw2gW98LvgBXPoj8N/Vzn2vkBYPnk0rDYsj4JNorz4tywiKnsLH07NC5OhpN5/wRrxa1/NIxyJjs3d4Hl0ZuhPetZG3wHZvbBsIx7Kkgg9hvDaG3Jzsnd8BK7NvT7WoKkGagGtWHoyM7HHbEWNrHNHpchgZFNfFd2Lu7KOCBhf/uZBiskqz4OZ07QFZn2uRnWDXFKsn4bEpP0XJDouuaEIAiCIAiCIF8D+jzUp5bjjpnnuo7Xv2k3AHPJU1gGUc2yenygbq8W2oGCufYvTwyU6wx6s2VJYf64ND5gJ/O0H4p0P4g++jUskz7sWwLk/nW/phirofbLKJAlVyroiWAgO4dfBNLQ5gnWxbjQekkaWMj3OyjqvDXkPbUK1jzou8lOdzc60UsibXtUgEBE0DAqXZdt6aKll3kvxIWe9RR2k3a5N0o966nzLFiEdX860LEQIS5FBeuWqONeO8u5g5lLlj80LETrp7igYST6NUQwqy6Gm0x2hjtD97enFFcot9oVYqdmWDfEvXZdDfsl/K1osF/0K8N/uggahn6dKRr+Dw21a4c0F5obHon2+hm+CM8sGnz9rgvQbYeBt55D77TTqG2m4bqp9dxB0F5r15U2A9MODdHXb9BW43SopjMtt6HYWvh7Eej3rTiQFoKC9kbTvW82FCzEYKdnEdaK7bsWBzRdLiXNordQZ/OoZxU9QE2Bif5E6zMLbNuqGJi6NsI3YFhyVzPsUtte5gjdbjiK0UbPHYsLqJncHL7560x/wea80P56MQbJXsvB2hVo9pJ82CxdJnPShwL8DYXs9fFsEXwSPmSg6VDtBgDUc53p62qxeHoyHddj/fL7Ta3Jamgv5RAEQRAEQRAE+SLA4W+lcE9glAxukghd+4k5KQzkn3ejD7zFQpG9azrkpTCSXopoKJACGkoGDQVSQEPJoKFACmgoGTQUSAENJYOGAimgoWTQUCAFNJQMGgqkgIaSQUOBFNBQMmgokAIaSgYNBVJAQ8mgoUAKaCgZNBRIAQ0lg4YCKaChZNBQIAU0lAwaCqSAhpJBQ4EU0FAyfEORp4b1NnwViOlBV2obslde/p5EDBdqG9IpL38iQfP5MV7kx1yAHS9/G4GY+azgpSD/FVHIePmbjNsTsLihQRR4rjjlhkpqv3ABI97v7fZ/0d1JucHz2x9u9xLe7yfyyxAIN1JS0Rrbw+PWgUr+4xcA3K4wanu8wlrzfm4k3t/R4EFzbhYrfiGCyY89+CD9Y9HER+T2hVHOa4nAZvyQ0SoE/aRbfimUc049dVoiDwZ/z4NDtuFm0ihuDkvAGra8YvKowgVEwvh9Ra04v94WgeRtz7TkCjTDJmJwWz4nefYx6hyw7XNbXMXlXIUirMdtrbED7U3teIoqBIRaZDco2n5mVPJHpQdY0h5CPypm+S5zHc+yHIdl+3XlC8TdHyhRSZvphchDD/Zy4v9bbWazn1VZBkJxP9UJgc3EnyOxa4T/eKPM+4j0tdNbFqIs1ehJD7idYneLUikU9hNGdyjE5VCl0LQOd5L3OTZKBVWEtNO7OSIsFXtbh7+o+Bm4cxIJAP3meqrA5P4PBMZuXZgo8yk8QePi+wTVfLKEtc4xhFHrQ3GCtU73RAV/KfStPwe8vNPbMjcF12r6NbB98Q2CubqCtWL85R61VPwFNpp98bu4ydTsZE4A23V6BumSYEjVLsEDzJl1eq7rRLQxLZXb4DvgjKpPzKaCaupp4dcA7v7npNsLj0G19zSooCcY2z9XwgOAqHjWogFeAJSZLwOR2rqskh8xVWq6Kwowms1/JDzLqAjzuUkUHaSJAFDXvdR8WDwWk4sONgqKzeIpTlOgSoR//BLQ1FjPccdjL03j0ShLUzJ2XcexGCUaPpnHoy4tqkjITgRBEARBEARBvplUdgbuDBBTdhbuC2Rk2u/JGkzJSrclrm7QFQkVOCp+R6yQBApc2bgjrk9s+ZfD7giYNrFFrpdpixMaxAgUOYd7H/za0FbhWsqdsNZRbWj4Ipd1tYTGpdEY2rOeGr5dyCHNHkKu+tb552B5s1XSGBqlYgcdvwc6P5zuORhyLu7oy/Gc3ZuhUcw13sK7BrDtm+DR0JjkrE/FCDQ/Hlo+GhrRLO7N4AZYfDrw8m5o2OUanD5UVbDM5OzK0cmwLkY/NF1L65fPgVrj0SI4P+hybtgUpB+uptoOVFPzdRUGf1w7+g+YT22SfN7U6gAAAABJRU5ErkJggg==" alt="Unum" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=U';">
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="car-un">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="car-un" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://login.unum.com/" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-auto" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAllBMVEUBUpT///8AUJMATpJ9nsBHgbIPYp5OgK4fbKYATJEASY/5+/0AR48AQYwAP4sASZDO3Ona4+2PsM3r8ffR4OwtcKaSrso7baMiZZ+FpcV2nsLl7vUAVpgOWJdYjLhwlr1kirW60eNbfqueu9TG1OMyaaGqxNmRs89VircxbqWKpsajtM1Ddahqi7RSeal8lro6e6/Dzt1XAIx8AAAG30lEQVR4nO2daXuiOhSAw4lFwyKbCygojEhrx+nt/f9/7oIdq041hLZOEu55P9c8eZuFrCfEOMe2g3C1N1OiJ5BNV6FvXygZ5NwvWIzGHgXZGf08ANRyzdCPrhrafmJaGtu9Aw5Zl/ZHw2gW98LvgBXPoj8N/Vzn2vkBYPnk0rDYsj4JNorz4tywiKnsLH07NC5OhpN5/wRrxa1/NIxyJjs3d4Hl0ZuhPetZG3wHZvbBsIx7Kkgg9hvDaG3Jzsnd8BK7NvT7WoKkGagGtWHoyM7HHbEWNrHNHpchgZFNfFd2Lu7KOCBhf/uZBiskqz4OZ07QFZn2uRnWDXFKsn4bEpP0XJDouuaEIAiCIAiCIF8D+jzUp5bjjpnnuo7Xv2k3AHPJU1gGUc2yenygbq8W2oGCufYvTwyU6wx6s2VJYf64ND5gJ/O0H4p0P4g++jUskz7sWwLk/nW/phirofbLKJAlVyroiWAgO4dfBNLQ5gnWxbjQekkaWMj3OyjqvDXkPbUK1jzou8lOdzc60UsibXtUgEBE0DAqXZdt6aKll3kvxIWe9RR2k3a5N0o966nzLFiEdX860LEQIS5FBeuWqONeO8u5g5lLlj80LETrp7igYST6NUQwqy6Gm0x2hjtD97enFFcot9oVYqdmWDfEvXZdDfsl/K1osF/0K8N/uggahn6dKRr+Dw21a4c0F5obHon2+hm+CM8sGnz9rgvQbYeBt55D77TTqG2m4bqp9dxB0F5r15U2A9MODdHXb9BW43SopjMtt6HYWvh7Eej3rTiQFoKC9kbTvW82FCzEYKdnEdaK7bsWBzRdLiXNordQZ/OoZxU9QE2Bif5E6zMLbNuqGJi6NsI3YFhyVzPsUtte5gjdbjiK0UbPHYsLqJncHL7560x/wea80P56MQbJXsvB2hVo9pJ82CxdJnPShwL8DYXs9fFsEXwSPmSg6VDtBgDUc53p62qxeHoyHddj/fL7Ta3Jamgv5RAEQRAEQRAE+SLA4W+lcE9glAxukghd+4k5KQzkn3ejD7zFQpG9azrkpTCSXopoKJACGkoGDQVSQEPJoKFACmgoGTQUSAENJYOGAimgoWTQUCAFNJQMGgqkgIaSQUOBFNBQMmgokAIaSgYNBVJAQ8mgoUAKaCgZNBRIAQ0lg4YCKaChZNBQIAU0lAwaCqSAhpJBQ4EU0FAyfEORp4b1NnwViOlBV2obslde/p5EDBdqG9IpL38iQfP5MV7kx1yAHS9/G4GY+azgpSD/FVHIePmbjNsTsLihQRR4rjjlhkpqv3ABI97v7fZ/0d1JucHz2x9u9xLe7yfyyxAIN1JS0Rrbw+PWgUr+4xcA3K4wanu8wlrzfm4k3t/R4EFzbhYrfiGCyY89+CD9Y9HER+T2hVHOa4nAZvyQ0SoE/aRbfimUc049dVoiDwZ/z4NDtuFm0ihuDkvAGra8YvKowgVEwvh9Ra04v94WgeRtz7TkCjTDJmJwWz4nefYx6hyw7XNbXMXlXIUirMdtrbED7U3teIoqBIRaZDco2n5mVPJHpQdY0h5CPypm+S5zHc+yHIdl+3XlC8TdHyhRSZvphchDD/Zy4v9bbWazn1VZBkJxP9UJgc3EnyOxa4T/eKPM+4j0tdNbFqIs1ehJD7idYneLUikU9hNGdyjE5VCl0LQOd5L3OTZKBVWEtNO7OSIsFXtbh7+o+Bm4cxIJAP3meqrA5P4PBMZuXZgo8yk8QePi+wTVfLKEtc4xhFHrQ3GCtU73RAV/KfStPwe8vNPbMjcF12r6NbB98Q2CubqCtWL85R61VPwFNpp98bu4ydTsZE4A23V6BumSYEjVLsEDzJl1eq7rRLQxLZXb4DvgjKpPzKaCaupp4dcA7v7npNsLj0G19zSooCcY2z9XwgOAqHjWogFeAJSZLwOR2rqskh8xVWq6Kwowms1/JDzLqAjzuUkUHaSJAFDXvdR8WDwWk4sONgqKzeIpTlOgSoR//BLQ1FjPccdjL03j0ShLUzJ2XcexGCUaPpnHoy4tqkjITgRBEARBEARBvplUdgbuDBBTdhbuC2Rk2u/JGkzJSrclrm7QFQkVOCp+R6yQBApc2bgjrk9s+ZfD7giYNrFFrpdpixMaxAgUOYd7H/za0FbhWsqdsNZRbWj4Ipd1tYTGpdEY2rOeGr5dyCHNHkKu+tb552B5s1XSGBqlYgcdvwc6P5zuORhyLu7oy/Gc3ZuhUcw13sK7BrDtm+DR0JjkrE/FCDQ/Hlo+GhrRLO7N4AZYfDrw8m5o2OUanD5UVbDM5OzK0cmwLkY/NF1L65fPgVrj0SI4P+hybtgUpB+uptoOVFPzdRUGf1w7+g+YT22SfN7U6gAAAABJRU5ErkJggg==" alt="Unum" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=U';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Unum</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Carrier</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Unum</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Broker Support Login</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Broker Support Login</p>
+                            </a>
+                        </div>
                         
                         <!-- Pacific Life -->
-                        <a href="https://loginportal.pacificlife.com/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100 p-1">
-                                    <img class="h-8 w-auto" src="https://www.pacificlife.com/content/dam/paclife/crp/images/logos/PL-Logo-Desktop.svg" alt="Pacific Life" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="car-pac">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="car-pac" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://loginportal.pacificlife.com/" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600 p-1">
+                                        <img class="h-8 w-auto" src="https://www.pacificlife.com/content/dam/paclife/crp/images/logos/PL-Logo-Desktop.svg" alt="Pacific Life" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=P';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Pacific Life</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Carrier</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Pacific Life</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Agent Login Portal</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Agent Login Portal</p>
+                            </a>
+                        </div>
+                        
                         <!-- Equitable -->
-                        <a href="https://auth.equitable.com/login/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=equitable.com" alt="Equitable" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="car-eq">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="car-eq" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://auth.equitable.com/login/" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=equitable.com" alt="Equitable" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=E';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Equitable</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Carrier</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Equitable</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Agent Login</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Agent Login</p>
+                            </a>
+                        </div>
+                        
                         <!-- Humana -->
-                        <a href="https://athena-portal.humana.com/AgentPortal/login?locale=us" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=humana.com" alt="Humana" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=H';">
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="car-hum">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="car-hum" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://athena-portal.humana.com/AgentPortal/login?locale=us" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <img class="h-8 w-8" src="https://www.google.com/s2/favicons?sz=64&domain=humana.com" alt="Humana" onerror="this.onerror=null;this.src='https://placehold.co/32x32/ffffff/000000?text=H';">
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Humana</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Carrier</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Humana</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Carrier</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Agent Login Portal</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Agent Login Portal</p>
+                            </a>
+                        </div>
                     </div>
                 </section>
 
@@ -446,40 +651,52 @@
                     </h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- NotebookLM Card 1 -->
-                        <a href="https://notebooklm.google.com/notebook/a4db82b1-57b0-49e4-b528-ccbe1a8db8ca" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <!-- Icon: Notebook/Sparkles -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 5l1-2 1 2m-8 0l1-2 1 2" stroke-width="1.5" />
-                                    </svg>
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="edu-kb">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="edu-kb" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://notebooklm.google.com/notebook/a4db82b1-57b0-49e4-b528-ccbe1a8db8ca" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <!-- Icon: Notebook/Sparkles -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 5l1-2 1 2m-8 0l1-2 1 2" stroke-width="1.5" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Knowledge Base</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">AI Assistant</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Knowledge Base</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">AI Assistant</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Chat with internal documents</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Chat with internal documents</p>
+                            </a>
+                        </div>
 
                          <!-- NotebookLM Card 2 -->
-                         <a href="https://notebooklm.google.com/notebook/9f419d41-18d9-4884-945f-4c613c5f2931" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <!-- Icon: Notebook/Sparkles -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 5l1-2 1 2m-8 0l1-2 1 2" stroke-width="1.5" />
-                                    </svg>
+                         <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="edu-nav">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="edu-nav" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://notebooklm.google.com/notebook/9f419d41-18d9-4884-945f-4c613c5f2931" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <!-- Icon: Notebook/Sparkles -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 5l1-2 1 2m-8 0l1-2 1 2" stroke-width="1.5" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">EE Nav Training Materials</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">AI Learning</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">EE Nav Training Materials</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">AI Learning</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Interactive training resources</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Interactive training resources</p>
+                            </a>
+                        </div>
                     </div>
                 </section>
 
@@ -489,86 +706,116 @@
                         Tools
                     </h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        
                         <!-- Census File Converter -->
-                        <a href="https://intelligent-file-converter-w-audit-beta-1-1-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <!-- Icon: File Spreadsheet/Converter -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="tool-cen">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="tool-cen" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://genai-app-censuscreatorforpriorityh-1-17755735514-462179393138.us-central1.run.app/?key=witsR8VaRk7cN0b2s1IMM01xg6IKVogo" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Census Converter</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Utility</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Census Converter</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Convert census files</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Convert census files</p>
+                            </a>
+                        </div>
+
                         <!-- Tiered Rate Calculator -->
-                        <a href="https://tiered-rate-calculator-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <!-- Icon: Calculator -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h3m-3-10h.01M9 17h.01M9 14h.01M12 14h.01M15 14h.01M12 17h.01M15 17h.01M9 10h.01M12 10h.01M15 10h.01M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                    </svg>
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="tool-rate">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="tool-rate" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://genai-app-linkbenefits-aimodeler-1-1775574478392-462179393138.us-central1.run.app/?key=8kffGeizATu6QdoLYDFeCbFBQXnA2pCS" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h3m-3-10h.01M9 17h.01M9 14h.01M12 14h.01M15 14h.01M12 17h.01M15 17h.01M9 10h.01M12 10h.01M15 10h.01M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Rate Calculator</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Utility</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Rate Calculator</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Calculate tiered rates</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Calculate tiered rates</p>
+                            </a>
+                        </div>
+
                         <!-- SIC Code Finder -->
-                        <a href="https://intelligent-code-finder-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <!-- Icon: Search List/Code -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="tool-sic">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="tool-sic" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://genai-app-industrycodeclassifier-1-1773874021883-462179393138.us-central1.run.app/?key=Sf3bjTmP2hSSdW4aFxeyz3BwKQqeeQyG" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">SIC Finder</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Utility</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">SIC Finder</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Look up SIC codes</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Look up SIC codes</p>
+                            </a>
+                        </div>
+
                         <!-- PH Submission Audit -->
-                         <a href="https://health-application-auditor-482082376209.us-west1.run.app/" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <!-- Icon: Clipboard Check -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                                    </svg>
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="tool-ph">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="tool-ph" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://genai-app-priorityhealthimplementat-1-17755714589-462179393138.us-central1.run.app/?key=RwgGEPcfsVxdwXj88TqHCmwmjRRuzqBD" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">PH Audit</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Utility</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">PH Audit</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Audit PH submissions</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Audit PH submissions</p>
+                            </a>
+                        </div>
+
                         <!-- Secure Upload Site -->
-                        <a href="https://next.paubox.com/forms/LinkBenefits%2CLLC/form/1cfe6e66-ed9b-4f8e-ae53-47a4703abd12?view=Edit" target="_blank" rel="noopener noreferrer" class="resource-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full hover:border-brand-green/30">
-                            <div class="flex items-center space-x-4 mb-2">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                                    <!-- Icon: Lock/Shield -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                    </svg>
+                        <div class="relative resource-card bg-white dark:bg-slate-800 p-6 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm flex flex-col h-full hover:border-brand-green/30" data-id="tool-sec">
+                            <button class="favorite-btn absolute top-4 right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="tool-sec" aria-label="Toggle favorite">
+                                <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                                <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                            </button>
+                            <a href="https://next.paubox.com/forms/LinkBenefits%2CLLC/form/1cfe6e66-ed9b-4f8e-ae53-47a4703abd12?view=Edit" target="_blank" rel="noopener noreferrer" class="flex-1">
+                                <div class="flex items-center space-x-4 mb-2 pr-8">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-xl bg-gray-50 dark:bg-slate-700 flex items-center justify-center border border-gray-100 dark:border-slate-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold brand-black">Secure Upload</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Utility</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold brand-black">Secure Upload</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Utility</p>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-2">Securely send files</p>
-                        </a>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Securely send files</p>
+                            </a>
+                        </div>
                     </div>
                 </section>
 
@@ -577,27 +824,29 @@
                     <h2 class="text-2xl font-bold brand-black mb-6 flex items-center">
                         Highspot Resources
                     </h2>
-                    <div class="resource-card bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:border-brand-green/30">
-                        <!-- Highspot Header -->
-                        <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-                            <div class="flex items-center space-x-3">
-                                <div class="flex-shrink-0 h-8 w-8 rounded-lg bg-white flex items-center justify-center border border-gray-200">
+                    <div class="relative resource-card bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col hover:border-brand-green/30" data-id="hs-viewer">
+                        <button class="favorite-btn absolute top-4 right-1/2 md:right-4 z-20 text-gray-300 hover:text-yellow-400 dark:text-slate-600 transition-colors" data-id="hs-viewer" aria-label="Toggle favorite">
+                            <svg class="w-6 h-6 star-outline pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                            <svg class="w-6 h-6 star-filled hidden text-yellow-400 pointer-events-none" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                        </button>
+                        <div class="bg-gray-50 dark:bg-slate-800 px-6 py-4 border-b border-gray-100 dark:border-slate-700 flex justify-between items-center relative z-10">
+                            <div class="flex items-center space-x-3 pr-10">
+                                <div class="flex-shrink-0 h-8 w-8 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center border border-gray-200 dark:border-slate-600">
                                     <img src="https://www.google.com/s2/favicons?sz=64&domain=highspot.com" class="h-5 w-5" alt="Highspot" onerror="this.onerror=null;this.src='https://placehold.co/20x20/ffffff/000000?text=H';">
                                 </div>
                                 <div>
                                     <h3 class="text-lg font-semibold brand-black">Document Viewer</h3>
-                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Sales Enablement</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">Sales Enablement</p>
                                 </div>
                             </div>
-                            <a href="https://view.highspot.com/viewer/ae1f85a1d5603ccf7cdfc69dc0f5a0e8" target="_blank" rel="noopener noreferrer" class="flex items-center text-brand-green hover:text-green-700 text-sm font-medium transition-colors">
-                                Open in New Tab
+                            <a href="https://view.highspot.com/viewer/ae1f85a1d5603ccf7cdfc69dc0f5a0e8" target="_blank" rel="noopener noreferrer" class="flex items-center text-brand-green hover:text-green-700 dark:hover:text-green-400 text-sm font-medium transition-colors">
+                                <span class="hidden md:inline">Open in New Tab</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                 </svg>
                             </a>
                         </div>
-                        <!-- Highspot Iframe -->
-                        <div class="relative w-full h-[800px] bg-gray-50">
+                        <div class="relative w-full h-[800px] bg-gray-50 dark:bg-slate-900 z-0">
                             <iframe 
                                 src="https://view.highspot.com/viewer/ae1f85a1d5603ccf7cdfc69dc0f5a0e8" 
                                 class="absolute inset-0 w-full h-full border-0" 
@@ -619,48 +868,137 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Accordion functionality
-            document.querySelectorAll('.accordion-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const content = header.nextElementSibling;
-                    const chevron = header.querySelector('.accordion-chevron');
+            
+            /* --- Dark Mode Logic --- */
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const htmlElement = document.documentElement;
+
+            // Initialize theme
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                htmlElement.classList.toggle('dark');
+                if (htmlElement.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            /* --- Favorites Logic --- */
+            let favorites = JSON.parse(localStorage.getItem('link_favorites') || '[]');
+
+            function updateFavoritesUI() {
+                const grid = document.getElementById('favorites-grid');
+                const section = document.getElementById('favorites');
+                const navLink = document.getElementById('nav-favorites');
+                
+                grid.innerHTML = '';
+                
+                if (favorites.length === 0) {
+                    section.classList.add('hidden');
+                    navLink.classList.add('hidden');
+                } else {
+                    section.classList.remove('hidden');
+                    navLink.classList.remove('hidden');
+                    
+                    favorites.forEach(id => {
+                        // Find the original item that is not already inside the favorites grid
+                        const original = document.querySelector(`[data-id="${id}"]:not(#favorites-grid [data-id])`);
+                        if (original) {
+                            const clone = original.cloneNode(true);
+                            grid.appendChild(clone);
+                        }
+                    });
+                }
+                
+                // Update all star icons everywhere
+                document.querySelectorAll('.favorite-btn').forEach(btn => {
+                    const id = btn.dataset.id;
+                    const outline = btn.querySelector('.star-outline');
+                    const filled = btn.querySelector('.star-filled');
+                    if (favorites.includes(id)) {
+                        outline.classList.add('hidden');
+                        filled.classList.remove('hidden');
+                    } else {
+                        outline.classList.remove('hidden');
+                        filled.classList.add('hidden');
+                    }
+                });
+            }
+
+            function toggleFavorite(id) {
+                if (favorites.includes(id)) {
+                    favorites = favorites.filter(fId => fId !== id);
+                } else {
+                    favorites.push(id);
+                }
+                localStorage.setItem('link_favorites', JSON.stringify(favorites));
+                updateFavoritesUI();
+            }
+
+            // Initial load
+            updateFavoritesUI();
+
+            /* --- Event Delegation (Handles Originals & Cloned Favorites) --- */
+            document.addEventListener('click', (e) => {
+                
+                // Favorite Button Click
+                const favBtn = e.target.closest('.favorite-btn');
+                if (favBtn) {
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    toggleFavorite(favBtn.dataset.id);
+                    return;
+                }
+
+                // Accordion Click
+                const accordionHeader = e.target.closest('.accordion-header');
+                if (accordionHeader) {
+                    const content = accordionHeader.nextElementSibling;
+                    const chevron = accordionHeader.querySelector('.accordion-chevron');
 
                     if (content.style.maxHeight) {
                         content.style.maxHeight = null;
                         chevron.classList.remove('rotate-180');
                     } else {
-                        // Close other open accordions
-                        document.querySelectorAll('.accordion-content').forEach(c => {
+                        // Close other accordions in the same grid/section
+                        const parentGrid = accordionHeader.closest('.grid') || document;
+                        parentGrid.querySelectorAll('.accordion-content').forEach(c => {
                             if (c !== content) {
                                 c.style.maxHeight = null;
-                                c.previousElementSibling.querySelector('.accordion-chevron').classList.remove('rotate-180');
+                                const prevChevron = c.previousElementSibling?.querySelector('.accordion-chevron');
+                                if(prevChevron) prevChevron.classList.remove('rotate-180');
                             }
                         });
                         
                         content.style.maxHeight = content.scrollHeight + "px";
                         chevron.classList.add('rotate-180');
-                    } 
-                });
-            });
+                    }
+                    return;
+                }
 
-            // Copy button functionality
-            document.querySelectorAll('.copy-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
+                // Copy Button Click
+                const copyBtn = e.target.closest('.copy-btn');
+                if (copyBtn) {
                     e.preventDefault(); 
                     e.stopPropagation(); 
 
-                    const url = button.dataset.url;
+                    const url = copyBtn.dataset.url;
                     
                     if (navigator.clipboard && window.isSecureContext) {
                          navigator.clipboard.writeText(url).then(() => {
-                            const originalText = button.textContent;
-                            button.textContent = 'Copied!';
+                            const originalText = copyBtn.textContent;
+                            copyBtn.textContent = 'Copied!';
                             setTimeout(() => {
-                                button.textContent = originalText;
+                                copyBtn.textContent = originalText;
                             }, 2000);
                         });
                     } else {
-                        // Fallback for non-secure contexts or older browsers
                         const textarea = document.createElement('textarea');
                         textarea.value = url;
                         textarea.style.position = "fixed";
@@ -671,10 +1009,10 @@
                         
                         try {
                             document.execCommand('copy');
-                            const originalText = button.textContent;
-                            button.textContent = 'Copied!';
+                            const originalText = copyBtn.textContent;
+                            copyBtn.textContent = 'Copied!';
                             setTimeout(() => {
-                                button.textContent = originalText;
+                                copyBtn.textContent = originalText;
                             }, 2000);
                         } catch (err) {
                             console.error('Fallback: Oops, unable to copy', err);
@@ -682,30 +1020,33 @@
                         
                         document.body.removeChild(textarea);
                     }
-                });
+                    return;
+                }
             });
 
-            // Search functionality
-        const searchInputDesktop = document.getElementById('desktop-search');
-        const searchInputMobile = document.getElementById('mobile-search');
-        
-        function performSearch(query) {
-            const searchTerm = query.toLowerCase();
-            const sections = ['applications', 'workspace', 'jotforms', 'carriers', 'education', 'tools', 'highspot'];
+
+            /* --- Search functionality --- */
+            const searchInputDesktop = document.getElementById('desktop-search');
+            const searchInputMobile = document.getElementById('mobile-search');
             
-            sections.forEach(sectionId => {
-                const section = document.getElementById(sectionId);
+            function performSearch(query) {
+                const searchTerm = query.toLowerCase();
+                const sections = ['favorites', 'applications', 'hr', 'workspace', 'jotforms', 'carriers', 'education', 'tools', 'highspot'];
+                
+                sections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
                     if (!section) return;
                     
+                    // Specific logic for favorites section since it clones items
+                    if (sectionId === 'favorites' && favorites.length === 0) return;
+
                     const items = section.querySelectorAll('.resource-card, .accordion-container');
                     let sectionHasVisibleItems = false;
                     
                     items.forEach(item => {
-                        // Get text content from h3 (title) and p (description)
                         const title = item.querySelector('h3')?.textContent.toLowerCase() || '';
                         const desc = item.querySelector('p.text-sm')?.textContent.toLowerCase() || '';
                         
-                        // Also check accordion links if it's an accordion
                         let linksText = '';
                         if (item.classList.contains('accordion-container')) {
                             const links = item.querySelectorAll('ul li a');
@@ -718,19 +1059,19 @@
                             item.style.display = '';
                             sectionHasVisibleItems = true;
                             
-                            // Open accordion if search matches content inside
                             if (item.classList.contains('accordion-container') && linksText.includes(searchTerm) && searchTerm.length > 2) {
                                 const content = item.querySelector('.accordion-content');
                                 const chevron = item.querySelector('.accordion-chevron');
-                                content.style.maxHeight = content.scrollHeight + "px";
-                                chevron.classList.add('rotate-180');
+                                if (content && chevron) {
+                                    content.style.maxHeight = content.scrollHeight + "px";
+                                    chevron.classList.add('rotate-180');
+                                }
                             }
                         } else {
                             item.style.display = 'none';
                         }
                     });
                     
-                    // Show/Hide section header based on results
                     if (sectionHasVisibleItems) {
                         section.style.display = '';
                     } else {
@@ -746,7 +1087,7 @@
                 searchInputMobile.addEventListener('input', (e) => performSearch(e.target.value));
             }
 
-            // Highlight active nav item on scroll
+            /* --- Highlight active nav item on scroll --- */
             const sections = document.querySelectorAll('section');
             const navItems = document.querySelectorAll('.nav-item');
 
@@ -755,14 +1096,15 @@
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
                     const sectionHeight = section.clientHeight;
-                    if (scrollY >= (sectionTop - 200)) {
+                    // Ensure hidden sections (like empty favorites) don't capture the scroll
+                    if (!section.classList.contains('hidden') && scrollY >= (sectionTop - 200)) {
                         current = section.getAttribute('id');
                     }
                 });
 
                 navItems.forEach(item => {
                     item.classList.remove('active');
-                    if (item.getAttribute('href').includes(current)) {
+                    if (item.getAttribute('href').includes(current) && current !== '') {
                         item.classList.add('active');
                     }
                 });
